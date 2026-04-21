@@ -1,0 +1,103 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "REVIEW_DONATION",
+      "title": "Review Your Donation",
+      "terminal": false,
+      "data": {
+        "donor_name": { "type": "string", "__example__": "Jane Smith" },
+        "food_description": { "type": "string", "__example__": "Vegetable soup and bread" },
+        "quantity_lb": { "type": "string", "__example__": "10" }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          { "type": "TextHeading", "text": "Confirm Your Donation" },
+          { "type": "TextBody", "text": "Please review and confirm the details below." },
+          {
+            "type": "TextInput",
+            "name": "donor_name",
+            "label": "Your Name",
+            "input-type": "text",
+            "required": true
+          },
+          {
+            "type": "TextInput",
+            "name": "food_description",
+            "label": "Food Description",
+            "input-type": "text",
+            "required": true
+          },
+          {
+            "type": "TextInput",
+            "name": "quantity_lb",
+            "label": "Weight (lbs)",
+            "input-type": "text",
+            "required": true
+          },
+          {
+            "type": "Footer",
+            "label": "Confirm",
+            "on-click-action": {
+              "name": "navigate",
+              "next": { "type": "screen", "name": "PICKUP_WINDOW" },
+              "payload": {
+                "donor_name": "${form.donor_name}",
+                "food_description": "${form.food_description}",
+                "quantity_lb": "${form.quantity_lb}"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "PICKUP_WINDOW",
+      "title": "Pickup Window",
+      "terminal": true,
+      "data": {
+        "donor_name": { "type": "string", "__example__": "Jane Smith" },
+        "food_description": { "type": "string", "__example__": "Vegetable soup and bread" },
+        "quantity_lb": { "type": "string", "__example__": "10" }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          { "type": "TextHeading", "text": "When Can We Pick Up?" },
+          { "type": "TextBody", "text": "Tell us the earliest and latest times for pickup today." },
+          {
+            "type": "TextInput",
+            "name": "pickup_start",
+            "label": "Earliest Pickup",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "e.g. 2:00 PM"
+          },
+          {
+            "type": "TextInput",
+            "name": "pickup_end",
+            "label": "Latest Pickup",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "e.g. 5:00 PM"
+          },
+          {
+            "type": "Footer",
+            "label": "Submit",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "donor_name": "${data.donor_name}",
+                "food_description": "${data.food_description}",
+                "quantity_lb": "${data.quantity_lb}",
+                "pickup_start": "${form.pickup_start}",
+                "pickup_end": "${form.pickup_end}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

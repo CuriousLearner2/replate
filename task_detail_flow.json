@@ -1,0 +1,97 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "TASK_DETAIL",
+      "title": "Pick-up Detail",
+      "terminal": true,
+      "data": {
+        "donor_name":    { "type": "string", "__example__": "Sunrise Cafe" },
+        "task_when":     { "type": "string", "__example__": "Friday, April 18  ·  2:00 PM - 4:00 PM" },
+        "task_address":  { "type": "string", "__example__": "1234 Telegraph Ave, Oakland" },
+        "donor_message": { "type": "string", "__example__": "Lots of leftover pasta, enough for 30 people, pickup before 4pm" },
+        "ai_category":   { "type": "string", "__example__": "prepared_meals" },
+        "ai_weight_lb":  { "type": "string", "__example__": "25.0" },
+        "ai_pickup_end": { "type": "string", "__example__": "4:00 PM" }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "${data.donor_name}"
+          },
+          {
+            "type": "TextBody",
+            "text": "${data.task_when}"
+          },
+          {
+            "type": "TextBody",
+            "text": "${data.task_address}"
+          },
+          {
+            "type": "TextSubheading",
+            "text": "Donor's Message"
+          },
+          {
+            "type": "TextBody",
+            "text": "${data.donor_message}"
+          },
+          {
+            "type": "TextSubheading",
+            "text": "AI Summary"
+          },
+          {
+            "type": "Dropdown",
+            "name": "category",
+            "label": "Category",
+            "required": true,
+            "init-value": "${data.ai_category}",
+            "data-source": [
+              { "id": "prepared_meals", "title": "Prepared Meals" },
+              { "id": "baked_goods",    "title": "Baked Goods" },
+              { "id": "produce",        "title": "Produce" },
+              { "id": "dairy",          "title": "Dairy" },
+              { "id": "beverages",      "title": "Beverages" },
+              { "id": "pantry",         "title": "Pantry / Dry Goods" },
+              { "id": "mixed",          "title": "Mixed / Other" }
+            ]
+          },
+          {
+            "type": "TextInput",
+            "name": "weight_lb",
+            "label": "Weight (lbs)",
+            "input-type": "text",
+            "required": true,
+            "init-value": "${data.ai_weight_lb}"
+          },
+          {
+            "type": "TextInput",
+            "name": "pickup_end",
+            "label": "Pickup by",
+            "input-type": "text",
+            "required": true,
+            "init-value": "${data.ai_pickup_end}"
+          },
+          {
+            "type": "TextCaption",
+            "text": "AI estimates — correct if needed."
+          },
+          {
+            "type": "Footer",
+            "label": "Claim Pick-up",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "donor_name": "${data.donor_name}",
+                "category":   "${form.category}",
+                "weight_lb":  "${form.weight_lb}",
+                "pickup_end": "${form.pickup_end}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

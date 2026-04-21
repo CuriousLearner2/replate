@@ -1,0 +1,90 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "DONOR_INTAKE",
+      "title": "Report Surplus Food",
+      "terminal": true,
+      "data": {},
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Tell Us What You Have"
+          },
+          {
+            "type": "TextBody",
+            "text": "We'll arrange a pickup as soon as possible."
+          },
+          {
+            "type": "TextInput",
+            "name": "org_name",
+            "label": "Organization",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "e.g. Sunrise Cafe"
+          },
+          {
+            "type": "TextInput",
+            "name": "donor_name",
+            "label": "Your Name",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "e.g. Maria Chen"
+          },
+          {
+            "type": "TextInput",
+            "name": "phone",
+            "label": "Phone Number",
+            "input-type": "phone",
+            "required": true,
+            "helper-text": "e.g. (510) 555-0192"
+          },
+          {
+            "type": "TextInput",
+            "name": "email",
+            "label": "Email",
+            "input-type": "email",
+            "required": false,
+            "helper-text": "e.g. maria@sunrisecafe.com"
+          },
+          {
+            "type": "TextArea",
+            "name": "food_description",
+            "label": "Food available",
+            "required": true,
+            "helper-text": "e.g. Leftover pasta and bread, enough for 30 people"
+          },
+          {
+            "type": "TextInput",
+            "name": "pickup_window",
+            "label": "Pickup window",
+            "input-type": "text",
+            "required": true,
+            "helper-text": "e.g. Any time before 4pm"
+          },
+          {
+            "type": "TextCaption",
+            "text": "We'll confirm your pickup via WhatsApp shortly."
+          },
+          {
+            "type": "Footer",
+            "label": "Submit Donation",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "org_name":         "${form.org_name}",
+                "donor_name":       "${form.donor_name}",
+                "phone":            "${form.phone}",
+                "email":            "${form.email}",
+                "food_description": "${form.food_description}",
+                "pickup_window":    "${form.pickup_window}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
