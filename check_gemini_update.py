@@ -1,3 +1,4 @@
+from dotenv import load_dotenv
 import subprocess
 import json
 import smtplib
@@ -6,12 +7,15 @@ from email.mime.multipart import MIMEMultipart
 import datetime
 import os
 
+# Load environment variables
+load_dotenv()
+
 # Configuration
 SMTP_SERVER = "smtp.mail.me.com"
 SMTP_PORT = 587
-SENDER_EMAIL = "gautambiswas2004@icloud.com"
-RECEIVER_EMAIL = "gautambiswas2004@gmail.com"
-PASSWORD = "jjho-mufs-iyya-nbit"
+SENDER_EMAIL = os.getenv('EMAIL_USER', "gautambiswas2004@icloud.com")
+RECEIVER_EMAIL = os.getenv('RECEIVER_EMAIL', "gautambiswas2004@gmail.com")
+PASSWORD = os.getenv('EMAIL_PASSWORD')
 
 LOG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "gemini_update_check.log")
 
