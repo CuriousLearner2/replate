@@ -61,11 +61,13 @@ The system extracts 5 structured fields from unstructured text to minimize donor
 ## 6. Security & Privacy
 
 ### 6.1 Webhook Verification
-* **Signature Check:** The Edge Function validates the `X-Hub-Signature-256` header if `WHATSAPP_APP_SECRET` is configured in the environment. If the secret is missing, verification is bypassed (for development ease).
-* **PII Retention:** A planned PostgreSQL Cron job will handle session deletion:
+*   **Signature Check**: The Edge Function validates the `X-Hub-Signature-256` header if `WHATSAPP_APP_SECRET` is configured in the environment. If the secret is missing, verification is bypassed (for development ease).
+*   **PII Retention**: A planned PostgreSQL Cron job will handle session deletion. The interval MUST be configurable (default: 24 hours):
   ```sql
-  DELETE FROM whatsapp_sessions WHERE updated_at < now() - interval '24 hours';
+  -- Example with configurable interval variable
+  DELETE FROM whatsapp_sessions WHERE updated_at < now() - interval '1 day';
   ```
+
 
 ## 7. Driver Flow Submission Handler
 

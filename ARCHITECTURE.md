@@ -69,7 +69,7 @@ If Gemini returns low-confidence scores, fails to parse, or the API is unavailab
 
 ### 4.1 donor_whatsapp_id
 *   **Classification:** This field is considered **Personally Identifiable Information (PII)**.
-*   **Retention Policy:** The `donor_whatsapp_id` is retained for **30 days** following task completion to allow for dispute resolution. After 30 days, a background worker masks this field (e.g., `whatsapp_user_masked`).
+*   **Retention Policy:** The `donor_whatsapp_id` is retained for a configurable period (default: **30 days**) following task completion to allow for dispute resolution. Nonprofits can configure shorter periods (e.g., 7 days) based on their specific privacy mandates. After this period, a background worker masks this field.
 
 ## 5. Database Schema Enhancements (V1)
 
