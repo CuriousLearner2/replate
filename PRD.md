@@ -13,6 +13,7 @@ Replate is a logistics platform designed to eliminate food waste by connecting d
 *   **Engagement:** > 80% of reported WhatsApp donations successfully converted into claimed tasks.
 *   **Efficiency:** Average time from "WhatsApp message received" to "Task available in CLI" under 5 minutes.
 *   **Volume:** Capture at least 10 new donation leads via the WhatsApp channel in the first month.
+*   **Growth:** Acquire at least 50 new donation leads via the Meta Lookalike Growth Loop in the first quarter.
 
 ### 3.2 V1 Scope: Driver Operations (Python CLI)
 *   **Authentication:** Simulated login/signup for prototype testing with local session persistence.

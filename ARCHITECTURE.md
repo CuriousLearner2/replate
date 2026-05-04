@@ -6,10 +6,10 @@
 *   **Role:** Terminal interface for volunteer drivers.
 *   **API Client:** A custom wrapper in `client/api.py` that supports both Supabase and Mock backends via the `REPLATE_BACKEND` env var.
 
-### 1.2 Supabase (Core Backend)
-*   **Database:** PostgreSQL.
-*   **Edge Functions:** TypeScript serverless functions to handle WhatsApp Webhooks and Gemini LLM integration.
-*   **Persistence:** Primary store for Drivers, Tasks, Partners, and WhatsApp Sessions.
+### 1.3 AWS & Marketing Toolkit (Supporting)
+*   **Role**: Data science and growth automation.
+*   **Capabilities**: Synthetic data generation, signal verification (AWS Personalize), and Meta Lookalike synchronization.
+*   **Integration**: Periodically extracts VIP donor lists from Supabase to seed Meta Custom Audiences.
 
 ## 2. Edge Functions
 

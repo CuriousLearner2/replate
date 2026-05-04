@@ -88,8 +88,16 @@ When a driver submits the Task Detail Flow:
 - `tasks.driver_verified` BOOLEAN DEFAULT false — tracks whether driver corrected AI fields
 - `tasks_category_check` constraint updated to include: Prepared Meals, Produce, Baked Goods, Dairy, Meat/Protein, Beverage, Pantry, Mixed / Other, Bakery
 
-## 8. Implementation Plan
-1. **SQL Setup:** Create `whatsapp_sessions` table and add `requires_review` to `tasks`.
-2. **Edge Function:** Develop the TypeScript function for Meta Webhook handling.
-3. **Gemini Integration:** Implement the `extractDonationDetails` utility using the Google AI SDK.
-4. **Mock Testing:** Create a local Python script to simulate WhatsApp Webhook payloads for rapid iteration.
+## 8. Marketing-to-WhatsApp Growth Loop (Integration)
+The system is designed to convert leads from Meta Lookalike Audiences directly into the WhatsApp onboarding flow.
+
+### 8.1 Lead Attribution
+When a user clicks a "Click-to-WhatsApp" ad, the incoming message can be tagged with tracking parameters.
+*   **Source**: Leads originated from Meta are tagged as `META_LOOKALIK` in the donor profile.
+*   **Archetype**: Based on the ad creative (Efficiency vs. Human Impact), the bot can customize the `START` response to match the user's documented interest.
+
+### 8.2 Seed List Synchronization
+High-value donors (VIPs) identified in the `tasks` table are periodically synchronized with Meta Custom Audiences using the `aws_nonprofit_toolkit`. This "High-Signal" seed list allows Meta's ML to find similar donors, creating a continuous acquisition loop.
+
+## 9. Implementation Plan
+... (rest of the file) ...
