@@ -5,3 +5,4 @@ __pycache__/
 venv/
 .replate/
 session.json
+*.log
