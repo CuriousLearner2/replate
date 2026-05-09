@@ -45,9 +45,34 @@ source ~/.zshrc
 *   **`replate`**: Launches the main volunteer driver CLI.
 *   **`replate-wa`**: Launches the WhatsApp Simulator to report new food donations.
 
+### 5. Usage Example (WhatsApp Bot)
+Run `replate-wa` to start a donation intake session:
+```text
+[User]: NEW
+[Bot]: 👋 Thanks for reaching out to Replate! What kind of food do you have?
+[User]: 10 trays of prepared pasta and 5 salads
+[Bot]: Got it: 10 trays of prepared pasta and 5 salads. I've estimated this at 165 lbs. Does that look correct? (Yes / No / Correct me)
+[User]: Yes
+[Bot]: Great! When is the latest we can pick this up?
+[User]: 5pm today
+[Bot]: Perfect. Pickup scheduled for today until 5:00 PM. Your donation is live!
+```
+
+---
+
+## 🛠 Troubleshooting
+
+| Symptom | Cause | Resolution |
+| :--- | :--- | :--- |
+| **`Connection Error`** | Invalid Supabase credentials | Verify `SUPABASE_URL` and `SUPABASE_ANON_KEY` in `.env`. |
+| **`Gemini API Error`** | Missing/Invalid AI Key | Ensure `GEMINI_API_KEY` is set and has active quota. |
+| **`Command Not Found`** | PATH not updated | Run `source ~/.zshrc` or call scripts via `python3 main.py`. |
+| **`No tasks shown`** | Date filtering | Ensure tasks in Supabase are dated for Today or Tomorrow. |
+
 ---
 
 ## 🔄 End-to-End Workflow
+... (rest of the file) ...
 
 1.  **Report Food**: Run `replate-wa`. Type `NEW` and follow the prompts to create a task.
 2.  **Get Alerted**: If configured, the admin receives a WhatsApp notification when the task is claimed or rescued.
