@@ -16,10 +16,41 @@ ADD COLUMN IF NOT EXISTS claimed_at TIMESTAMPTZ,
 ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ,
 ADD COLUMN IF NOT EXISTS released_at TIMESTAMPTZ;
 
--- 3. Enable RLS (Security)
-ALTER TABLE whatsapp_sessions ENABLE ROW LEVEL SECURITY;
+-- 3. Grant explicit access to tables via Data API (Required from May 30, 2026)
+-- These grants allow supabase-js and PostgREST to access the tables
+-- Without these, the tables won't be accessible via the Data API
 
--- 4. Allow access to sessions (Only for the Edge Function via Service Role)
+-- Grant access to whatsapp_sessions
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public.whatsapp_sessions
+  TO anon;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public.whatsapp_sessions
+  TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public.whatsapp_sessions
+  TO service_role;
+
+-- Grant access to tasks table (for Data API access)
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public.tasks
+  TO anon;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public.tasks
+  TO authenticated;
+
+GRANT SELECT, INSERT, UPDATE, DELETE
+  ON public.tasks
+  TO service_role;
+
+-- 4. Enable RLS (Security)
+ALTER TABLE whatsapp_sessions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE tasks ENABLE ROW LEVEL SECURITY;
+
+-- 5. Allow access to sessions (Only for the Edge Function via Service Role)
 CREATE POLICY "Service Role Only" ON whatsapp_sessions FOR ALL TO service_role USING (auth.role() = 'service_role');
 
 -- 5. Index for TTL performance
