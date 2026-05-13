@@ -9,12 +9,40 @@ CREATE TABLE IF NOT EXISTS whatsapp_sessions (
 );
 
 -- 2. Add technical metadata to the Tasks table
-ALTER TABLE tasks 
+ALTER TABLE tasks
 ADD COLUMN IF NOT EXISTS requires_review BOOLEAN DEFAULT false,
 ADD COLUMN IF NOT EXISTS created_at TIMESTAMPTZ DEFAULT now(),
 ADD COLUMN IF NOT EXISTS claimed_at TIMESTAMPTZ,
 ADD COLUMN IF NOT EXISTS completed_at TIMESTAMPTZ,
-ADD COLUMN IF NOT EXISTS released_at TIMESTAMPTZ;
+ADD COLUMN IF NOT EXISTS released_at TIMESTAMPTZ,
+ADD COLUMN IF NOT EXISTS donor_whatsapp_id TEXT;
+
+-- 2.1 PII Masking Function
+-- Masks donor_whatsapp_id after 30 days of task completion or creation
+CREATE OR REPLACE FUNCTION public.mask_completed_tasks_pii()
+RETURNS void AS $$
+BEGIN
+    UPDATE tasks
+    SET donor_whatsapp_id = 'MASKED_' || substring(donor_whatsapp_id from length(donor_whatsapp_id)-3)
+    WHERE donor_whatsapp_id IS NOT NULL
+      AND donor_whatsapp_id NOT LIKE 'MASKED_%'
+      AND (
+        (status = 'completed' AND completed_at < now() - interval '30 days')
+        OR
+        (status = 'available' AND created_at < now() - interval '30 days')
+      );
+END;
+$$ LANGUAGE plpgsql;
+
+-- 2.2 Schedule PII Masking (Daily at Midnight)
+-- Requires pg_cron extension to be enabled in your Supabase project
+CREATE EXTENSION IF NOT EXISTS pg_cron;
+
+SELECT cron.schedule(
+    'daily-pii-masking',
+    '0 0 * * *',
+    'SELECT public.mask_completed_tasks_pii()'
+);
 
 -- 3. Grant explicit access to tables via Data API (Required from May 30, 2026)
 -- These grants allow supabase-js and PostgREST to access the tables
@@ -57,8 +85,8 @@ CREATE POLICY "Service Role Only" ON whatsapp_sessions FOR ALL TO service_role U
 CREATE INDEX IF NOT EXISTS idx_whatsapp_sessions_updated_at ON whatsapp_sessions(updated_at);
 
 -- 6. Trigger for Status Notifications
--- This requires the 'net' extension to be enabled in Supabase
-CREATE EXTENSION IF NOT EXISTS "net";
+-- This requires the 'pg_net' extension to be enabled in Supabase
+CREATE EXTENSION IF NOT EXISTS pg_net;
 
 CREATE OR REPLACE FUNCTION public.on_task_status_change_notify()
 RETURNS TRIGGER AS $$
